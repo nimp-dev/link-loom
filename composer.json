@@ -1,0 +1,21 @@
+{
+    "name": "nimp/link-loom",
+    "description": "This package is designed to create short links and decode them back",
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "monolog/monolog": "3.*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nimp\\LinkLoom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yehor Konopka"
+        }
+    ],
+    "minimum-stability": "dev"
+}
