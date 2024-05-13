@@ -1,8 +1,10 @@
 <?php
 
-namespace Nimp\LinkLoom;
+namespace Nimp\LinkLoom\helpers;
 
-class UrlValidator implements interfaces\UrlValidatorInterface
+use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
+
+class UrlValidator implements UrlValidatorInterface
 {
 
     protected string $message = 'msg error';
