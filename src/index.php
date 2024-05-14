@@ -2,61 +2,50 @@
 
 require_once 'vendor/autoload.php';
 
+use Monolog\Level;
 use Monolog\Logger;
 use Nimp\LinkLoom\exceptions\RepositoryDataException;
 use Nimp\LinkLoom\exceptions\UrlShortenerException;
-use Nimp\LinkLoom\helpers\BaseSingletonLogger;
-use Nimp\LinkLoom\helpers\UrlValidator;
+use Nimp\LinkLoom\helpers\LoomLogger;
+use Nimp\LinkLoom\helpers\ConfigContainer;
 use Nimp\LinkLoom\UrlShortener;
 use Nimp\LinkLoom\FileRepository;
 
-$config = [
-    'db' => [
-        'path' => __DIR__ . '/../storage/file-storage.json',
-        'maxSize' => 10,
-    ],
-    'validator' => [
-        'class' => UrlValidator::class,
-        'httpClient' => false,
-    ],
-    'logger' => [
-        'class' => Logger::class,
-        'pathError' => __DIR__ . '/../logs/error.log',
-        'pathInfo' => __DIR__ . '/../logs/info.log',
-    ],
-];
+$configMain = require_once __DIR__ . '/config/main.php';
 
-$url = 'https://test13.com';
+$url = 'https://test20.com';
 
-$logger = BaseSingletonLogger::instance(new $config['logger']['class']('general'));
-$logger->pushHandler(new \Monolog\Handler\StreamHandler($config['logger']['pathError'], \Monolog\Level::Error));
-$logger->pushHandler(new \Monolog\Handler\StreamHandler($config['logger']['pathInfo'], \Monolog\Level::Info));
+ConfigContainer::instance()->setConfig($configMain);
+$config = ConfigContainer::instance();
 
+
+LoomLogger::instance();
+LoomLogger::instance()->setLogPath($config->get('logger.pathError'), Level::Error);
+LoomLogger::instance()->setLogPath($config->get('logger.pathInfo'), Level::Info);
 
 try {
-    $repository = new FileRepository($config['db']['path'], $config['db']['maxSize']);
+    $repository = new FileRepository($config->get('db.path'), $config->get('db.maxSize'));
 } catch (RepositoryDataException $e) {
     exit($e->getMessage());
 }
 
-
-$shortener = new UrlShortener($repository, new  $config['validator']['class']);
+$shortener = new UrlShortener($repository, new  ($config->get('validator.class')));
 
 try {
     $code = $shortener->encode($url);
 } catch (UrlShortenerException|Exception $e) {
-    $logger->getLogger()->error($e->getMessage());
+    LoomLogger::error($e->getMessage());
     exit($e->getMessage());
 }
 
 echo $code;
-$logger->getLogger()->info("add code: $code for url: $url");
+LoomLogger::info("add code: $code for url: $url");
 echo PHP_EOL;
 
 try {
     $decodedUrl = $shortener->decode($code);
 } catch (UrlShortenerException $e) {
-    $logger->getLogger()->error($e->getMessage());
+    LoomLogger::error($e->getMessage());
     exit($e->getMessage() . PHP_EOL);
 }
 
