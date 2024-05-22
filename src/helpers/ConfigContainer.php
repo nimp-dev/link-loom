@@ -42,18 +42,6 @@ class ConfigContainer extends Singleton
         return $this->definePath($id);
     }
 
-    /**
-     */
-    protected function __clone() { }
-
-    /**
-     * @throws Exception
-     */
-    public function __wakeup()
-    {
-        throw new Exception("Cannot unserialize a singleton.");
-    }
-
     protected function definePath(string $find): mixed
     {
         $tokens = explode('.', $find);

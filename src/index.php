@@ -3,7 +3,6 @@
 require_once 'vendor/autoload.php';
 
 use Monolog\Level;
-use Monolog\Logger;
 use Nimp\LinkLoom\exceptions\RepositoryDataException;
 use Nimp\LinkLoom\exceptions\UrlShortenerException;
 use Nimp\LinkLoom\helpers\LoomLogger;
@@ -13,7 +12,7 @@ use Nimp\LinkLoom\FileRepository;
 
 $configMain = require_once __DIR__ . '/config/main.php';
 
-$url = 'https://test20.com';
+$url = 'https://test21.com';
 
 ConfigContainer::instance()->setConfig($configMain);
 $config = ConfigContainer::instance();

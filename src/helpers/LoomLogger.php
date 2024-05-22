@@ -41,17 +41,4 @@ class LoomLogger extends Singleton
         self::instance()->getLogger()->info($message);
     }
 
-
-    /**
-     */
-    protected function __clone() { }
-
-    /**
-     * @throws Exception
-     */
-    public function __wakeup()
-    {
-        throw new Exception("Cannot unserialize a singleton.");
-    }
-
 }
