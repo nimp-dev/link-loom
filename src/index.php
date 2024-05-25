@@ -3,8 +3,13 @@
 require_once 'vendor/autoload.php';
 
 use Monolog\Level;
+use Nimp\LinkLoom\CLI\Color;
+use Nimp\LinkLoom\CLI\CommandHandler;
+use Nimp\LinkLoom\CLI\commands\TestCommand;
+use Nimp\LinkLoom\CLI\commands\UrlDecodeCommand;
+use Nimp\LinkLoom\CLI\commands\UrlEncodeCommand;
+use Nimp\LinkLoom\CLI\Writer;
 use Nimp\LinkLoom\exceptions\RepositoryDataException;
-use Nimp\LinkLoom\exceptions\UrlShortenerException;
 use Nimp\LinkLoom\helpers\LoomLogger;
 use Nimp\LinkLoom\helpers\ConfigContainer;
 use Nimp\LinkLoom\UrlShortener;
@@ -12,11 +17,11 @@ use Nimp\LinkLoom\FileRepository;
 
 $configMain = require_once __DIR__ . '/config/main.php';
 
-$url = 'https://test21.com';
-
 ConfigContainer::instance()->setConfig($configMain);
 $config = ConfigContainer::instance();
 
+
+$commandHandler = new CommandHandler(new TestCommand());
 
 LoomLogger::instance();
 LoomLogger::instance()->setLogPath($config->get('logger.pathError'), Level::Error);
@@ -30,24 +35,13 @@ try {
 
 $shortener = new UrlShortener($repository, new  ($config->get('validator.class')));
 
-try {
-    $code = $shortener->encode($url);
-} catch (UrlShortenerException|Exception $e) {
+$commandHandler->addCommand(new UrlEncodeCommand($shortener));
+$commandHandler->addCommand(new UrlDecodeCommand($shortener));
+$commandHandler->handle($argv, function ($params, Exception $e)
+{
     LoomLogger::error($e->getMessage());
-    exit($e->getMessage());
-}
-
-echo $code;
-LoomLogger::info("add code: $code for url: $url");
-echo PHP_EOL;
-
-try {
-    $decodedUrl = $shortener->decode($code);
-} catch (UrlShortenerException $e) {
-    LoomLogger::error($e->getMessage());
-    exit($e->getMessage() . PHP_EOL);
-}
-
-echo $decodedUrl;
+    Writer::instance()->setColor(Color::RED)->writeLn($e->getMessage());
+    Writer::instance()->writeBorder();
+});
 
 echo PHP_EOL;

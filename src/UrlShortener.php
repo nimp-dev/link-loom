@@ -41,13 +41,12 @@ class UrlShortener implements IUrlDecode, IUrlEncode
             $code = $this->repository->getCodeByUrl($url);
         }catch (RepositoryDataException) {
             $code = $this->generateCode($url);
-        }
-
-        $urlCodePair = new UrlCodePair($url, $code);
-        if (!$this->repository->saveUrlEntity($urlCodePair)) {
-            throw new UrlShortenerException(
-                'save entity error'
-            );
+            $urlCodePair = new UrlCodePair($url, $code);
+            if (!$this->repository->saveUrlEntity($urlCodePair)) {
+                throw new UrlShortenerException(
+                    'save entity error'
+                );
+            }
         }
 
         return $code;
