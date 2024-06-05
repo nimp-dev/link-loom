@@ -103,7 +103,7 @@ class FileRepository implements RepositoryInterface
         $itemsToRemove = $currentSize - $this->maxItemCount;
 
         if ($itemsToRemove > 0) {
-            $this->cleanupData($itemsToRemove + 1);
+            $this->cleanupData($itemsToRemove);
         }
     }
 
