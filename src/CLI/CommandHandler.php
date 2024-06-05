@@ -2,6 +2,7 @@
 
 namespace Nimp\LinkLoom\CLI;
 
+use Nimp\LinkLoom\CLI\commands\TestCommand;
 use Nimp\LinkLoom\CLI\interfaces\CliCommandInterface;
 
 class CommandHandler
@@ -17,7 +18,7 @@ class CommandHandler
     /**
      * @param CliCommandInterface $defaultCommand
      */
-    public function __construct(CliCommandInterface $defaultCommand)
+    public function __construct(CliCommandInterface $defaultCommand = new TestCommand())
     {
         $this->defaultCommand = $defaultCommand;
         $this->commands[$defaultCommand::getCommandName()] = $defaultCommand;

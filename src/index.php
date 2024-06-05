@@ -20,8 +20,7 @@ $configMain = require_once __DIR__ . '/config/main.php';
 ConfigContainer::instance()->setConfig($configMain);
 $config = ConfigContainer::instance();
 
-
-$commandHandler = new CommandHandler(new TestCommand());
+$commandHandler = new CommandHandler();
 
 LoomLogger::instance();
 LoomLogger::instance()->setLogPath($config->get('logger.pathError'), Level::Error);

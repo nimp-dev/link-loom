@@ -45,7 +45,7 @@ class FileRepository implements RepositoryInterface
         $this->checkFileSize();
         file_put_contents(
             $this->file,
-            json_encode($this->db)
+            json_encode($this->db,JSON_PRETTY_PRINT)
         );
     }
 

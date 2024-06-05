@@ -77,10 +77,8 @@ class UrlShortener implements IUrlDecode, IUrlEncode
      */
     protected function generateCode(string $url): string
     {
-        $hash = hash('sha256', $url . time());
-        $base62 = base_convert(bin2hex($hash), 16, 62);
-        return mb_substr($base62, 0, 8);
+        $hash = base64_encode($url . time());
+        return mb_substr($hash,0,8);
     }
-
 
 }

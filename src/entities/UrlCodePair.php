@@ -2,6 +2,7 @@
 
 namespace Nimp\LinkLoom\entities;
 
+/** todo add data property */
 class UrlCodePair
 {
     protected string $url;
