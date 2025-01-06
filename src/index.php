@@ -17,8 +17,7 @@ use Nimp\LinkLoom\FileRepository;
 
 $configMain = require_once __DIR__ . '/config/main.php';
 
-ConfigContainer::instance()->setConfig($configMain);
-$config = ConfigContainer::instance();
+$config = ConfigContainer::instance()->setConfig($configMain);
 
 $commandHandler = new CommandHandler();
 
@@ -32,7 +31,7 @@ try {
     exit($e->getMessage());
 }
 
-$shortener = new UrlShortener($repository, new  ($config->get('validator.class')));
+$shortener = new UrlShortener($repository, new ($config->get('validator.class')));
 
 $commandHandler->addCommand(new UrlEncodeCommand($shortener));
 $commandHandler->addCommand(new UrlDecodeCommand($shortener));

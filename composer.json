@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "php": "^8.0",
-        "monolog/monolog": "3.*"
+        "monolog/monolog": "3.*",
+        "psr/container": "2.*"
     },
     "license": "MIT",
     "autoload": {

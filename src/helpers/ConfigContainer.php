@@ -4,10 +4,11 @@ namespace Nimp\LinkLoom\helpers;
 
 use Exception;
 use Nimp\LinkLoom\abstracts\Singleton;
+use Psr\Container\ContainerInterface;
 
 /** todo implements ContainerInterface */
 
-class ConfigContainer extends Singleton
+class ConfigContainer extends Singleton implements ContainerInterface
 {
 
     protected array $hashmap = [];
@@ -16,14 +17,24 @@ class ConfigContainer extends Singleton
     {
     }
 
-    public function setConfig(array $config)
+    /**
+     * @param array $config
+     * @return $this
+     */
+    public function setConfig(array $config): static
     {
         $this->hashmap = $config;
+        return static::instance();
     }
 
-    public function addConfig(array $addConfig)
+    /**
+     * @param array $addConfig
+     * @return $this
+     */
+    public function addConfig(array $addConfig): static
     {
         $this->hashmap[] = $addConfig;
+        return self::instance();
     }
 
 
