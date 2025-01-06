@@ -2,11 +2,9 @@
 
 namespace Nimp\LinkLoom\helpers;
 
-use Exception;
 use Nimp\LinkLoom\abstracts\Singleton;
+use Nimp\LinkLoom\exceptions\NotFountConfigContainerException;
 use Psr\Container\ContainerInterface;
-
-/** todo implements ContainerInterface */
 
 class ConfigContainer extends Singleton implements ContainerInterface
 {
@@ -40,12 +38,12 @@ class ConfigContainer extends Singleton implements ContainerInterface
 
     public function has(string $id): bool
     {
-        $has = false;
-        if ($this->definePath($id))
-        {
-            $has = true;
+        try {
+            $this->definePath($id);
+            return true;
+        } catch (NotFountConfigContainerException $e) {
+            return false;
         }
-        return $has;
     }
 
     public function get(string $id): mixed
@@ -53,6 +51,11 @@ class ConfigContainer extends Singleton implements ContainerInterface
         return $this->definePath($id);
     }
 
+    /**
+     * @param string $find
+     * @return mixed
+     * @throws NotFountConfigContainerException
+     */
     protected function definePath(string $find): mixed
     {
         $tokens = explode('.', $find);
@@ -60,7 +63,7 @@ class ConfigContainer extends Singleton implements ContainerInterface
 
         while (null !== ($token = array_shift($tokens))) {
             if (!isset($context[$token])) {
-                throw new \InvalidArgumentException(sprintf('Key %s not found', $token));
+                throw new NotFountConfigContainerException(sprintf('Key %s not found', $token));
             }
 
             $context = $context[$token];
