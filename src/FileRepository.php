@@ -24,7 +24,7 @@ class FileRepository implements RepositoryInterface
     public function __construct(string $file, int $maxItemCount)
     {
         if (!file_exists($file)) {
-            throw new RepositoryDataException('file does not found');
+            throw new RepositoryDataException("file {$file} does not found");
         }
         $this->file = $file;
         $this->maxItemCount = $maxItemCount;
@@ -66,7 +66,7 @@ class FileRepository implements RepositoryInterface
     public function getCodeByUrl(string $url): string
     {
         $code = array_search($url, $this->db);
-        if ($code == false) {
+        if (!$code) {
             throw new RepositoryDataException('unknown url');
         }
         return $code;
