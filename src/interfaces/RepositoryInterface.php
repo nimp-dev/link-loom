@@ -27,9 +27,5 @@ interface RepositoryInterface
      */
     public function getCodeByUrl(string $url): string;
 
-    /**
-     * @param string $code
-     * @return bool
-     */
-    public function issetCode(string $code): bool;
+
 }

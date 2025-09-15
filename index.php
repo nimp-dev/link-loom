@@ -16,13 +16,16 @@ use Nimp\LinkLoom\helpers\BaseCodeGenerator;
 use Nimp\LinkLoom\helpers\LoomLogger;
 use Nimp\LinkLoom\helpers\ConfigContainer;
 use Nimp\LinkLoom\helpers\UrlValidator;
+use Nimp\LinkLoom\interfaces\CodeGeneratorInterface;
 use Nimp\LinkLoom\interfaces\RepositoryInterface;
 use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
 use Nimp\LinkLoom\LinkPluginContainer;
+use Nimp\LinkLoom\observer\dispatcher\EventDispatcher;
 use Nimp\LinkLoom\observer\subscribers\LoggerSubscriber;
 use Nimp\LinkLoom\UrlShortener;
 use Nimp\LinkLoom\FileRepository;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 $configMain = require_once __DIR__ . '/src/config/main.php';
 
@@ -30,14 +33,12 @@ $config = ConfigContainer::instance()->setConfig($configMain);
 
 $dependencies = [
     UrlShortener::class => function (ContainerInterface $container) {
-        $urlShortener = new UrlShortener(
+        return new UrlShortener(
             $container->get(RepositoryInterface::class),
             $container->get(UrlValidatorInterface::class),
-            $container->get(ContainerInterface::class)
+            $container->get(CodeGeneratorInterface::class),
+            $container->get(EventDispatcher::class),
         );
-        // Подключение подписчиков
-        $urlShortener->attach($container->get(LoggerSubscriber::class));
-        return $urlShortener;
     },
     RepositoryInterface::class => function (ContainerInterface $container) {
         return new FileRepository(__DIR__ . '/storage/file-storage.json', 10);
@@ -45,15 +46,23 @@ $dependencies = [
     UrlValidatorInterface::class => function (ContainerInterface $container) {
         return new UrlValidator();
     },
-    ContainerInterface::class => function (ContainerInterface $container) {
+    CodeGeneratorInterface::class => function (ContainerInterface $container) {
         return new BaseCodeGenerator(8);
+    },
+    EventDispatcher::class => function (ContainerInterface $container) {
+        // Подключение подписчиков
+        $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addSubscriber(
+            $container->get(LoggerSubscriber::class)
+        );
+        return $eventDispatcher;
     },
     LoggerSubscriber::class => function (ContainerInterface $container) {
         return new LoggerSubscriber(
-            $container->get(Logger::class),
+            $container->get(\Psr\Log\LoggerInterface::class),
         );
     },
-    Logger::class => function (ContainerInterface $container) {
+    LoggerInterface::class => function (ContainerInterface $container) {
         return new Logger(
             'general',
             [

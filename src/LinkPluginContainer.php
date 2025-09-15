@@ -10,7 +10,7 @@ class LinkPluginContainer extends Singleton implements ContainerInterface
 {
     /**
      * @var array  ключи это пути к классам => значение - функция колбек, которая принимает единственный аргумент
-     * котейнер, в этой фунции нудно релизовать создание завимистей
+     * котейнер, в этой функции нудно реализовать создание завимистей
      */
     private array $dependencies;
 

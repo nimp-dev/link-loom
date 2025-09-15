@@ -3,7 +3,7 @@
     "description": "This package is designed to create short links and decode them back",
     "type": "project",
     "require": {
-        "php": "^8.0",
+        "php": "^8.3",
         "monolog/monolog": "3.*",
         "psr/container": "2.*"
     },

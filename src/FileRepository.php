@@ -91,7 +91,7 @@ class FileRepository implements RepositoryInterface
      * @param string $code
      * @return bool
      */
-    public function issetCode(string $code): bool
+    protected function issetCode(string $code): bool
     {
         return array_key_exists($code, $this->db);
     }
