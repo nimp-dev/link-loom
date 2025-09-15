@@ -5,9 +5,11 @@ namespace Nimp\LinkLoom\observer\subscribers;
 interface EventSubscriberInterface
 {
     /**
-     * Возвращает массив подписок
-     *  - ключ = имя события
-     *  - значение = метод
+     * Возвращает список подписок:
+     *  - ключ = имя события (string)
+     *  - значение = callable|string (метод обработчика)
+     *
+     * @return iterable<string, callable|string>
      */
-    public function events(): array;
+    public function events(): iterable;
 }

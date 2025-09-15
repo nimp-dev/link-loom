@@ -2,54 +2,33 @@
 
 namespace Nimp\LinkLoom\observer\dispatcher;
 
-use Nimp\LinkLoom\observer\events\Event;
-use Nimp\LinkLoom\observer\subscribers\EventSubscriberInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
+use Psr\EventDispatcher\StoppableEventInterface;
 
-class EventDispatcher
+
+class EventDispatcher implements EventDispatcherInterface
 {
-    private array $listeners = [];
+    private ListenerProviderInterface $provider;
 
-    /**
-     * @param string $eventName
-     * @param callable $listener
-     * @return void
-     */
-    protected function addListener(string $eventName, callable $listener): void
+    public function __construct(ListenerProviderInterface $provider)
     {
-        $this->listeners[$eventName][] = $listener;
+        $this->provider = $provider;
     }
 
     /**
-     * @param EventSubscriberInterface $subscriber
-     * @return void
+     * @inheritdoc
      */
-    public function addSubscriber(EventSubscriberInterface $subscriber): void
+    public function dispatch(object $event): object
     {
-        foreach ($subscriber->events() as $eventName => $handler) {
-            if (is_string($handler)) {
-                // ['eventName' => 'methodName']
-                $this->addListener($eventName, [$subscriber, $handler]);
-            } elseif (is_callable($handler)) {
-                // ['eventName' => $this->method(...)]
-                $this->addListener($eventName, $handler);
+        foreach ($this->provider->getListenersForEvent($event) as $listener) {
+            $listener($event);
+
+            if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
+                break;
             }
         }
-    }
 
-    /**
-     * @param Event $event
-     * @return void
-     */
-    public function dispatch(Event $event): void
-    {
-        $eventName = $event->getName();
-
-        if (empty($this->listeners[$eventName])) {
-            return;
-        }
-
-        foreach ($this->listeners[$eventName] as $listener) {
-            $listener($event);
-        }
+        return $event;
     }
 }

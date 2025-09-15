@@ -2,7 +2,14 @@
 
 namespace Nimp\LinkLoom\observer\subscribers;
 
-use Nimp\LinkLoom\observer\events\Event;
+use Nimp\LinkLoom\observer\events\BaseShortenerEvent;
+use Nimp\LinkLoom\observer\events\DecodeStartEvent;
+use Nimp\LinkLoom\observer\events\DecodeSuccessEvent;
+use Nimp\LinkLoom\observer\events\EncodeStartEvent;
+use Nimp\LinkLoom\observer\events\EncodeSuccessEvent;
+use Nimp\LinkLoom\observer\events\GetFromStorageErrorEvent;
+use Nimp\LinkLoom\observer\events\SaveErrorEvent;
+use Nimp\LinkLoom\observer\events\ValidateErrorEvent;
 use Nimp\LinkLoom\UrlShortener;
 use Psr\Log\LoggerInterface;
 
@@ -15,23 +22,20 @@ class LoggerSubscriber implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
-    public function events(): array
+    public function events(): iterable
     {
-        return array_fill_keys([
-            UrlShortener::ENCODE_START_EVENT,
-            UrlShortener::ENCODE_SUCCESS_EVENT,
-            UrlShortener::DECODE_START_EVENT,
-            UrlShortener::DECODE_SUCCESS_EVENT,
-            UrlShortener::VALIDATE_ERROR_EVENT,
-            UrlShortener::GET_FROM_STORAGE_ERROR_EVENT,
-            UrlShortener::SAVE_ERROR_EVENT,
-        ], $this->startEncode(...));
+        yield EncodeStartEvent::class => $this->startEncode(...);
+        yield EncodeSuccessEvent::class => $this->startEncode(...);
+        yield DecodeStartEvent::class => $this->startEncode(...);
+        yield DecodeSuccessEvent::class => $this->startEncode(...);
+        yield ValidateErrorEvent::class => $this->startEncode(...);
+        yield GetFromStorageErrorEvent::class => $this->startEncode(...);
+        yield SaveErrorEvent::class => $this->startEncode(...);
     }
 
-    public function startEncode(Event $event): void
+    public function startEncode(BaseShortenerEvent $event): void
     {
-        $entry = date("Y-m-d H:i:s") . ": {$event->getName()}" . "with data '" . json_encode([0]) . "'\n";
+        $entry = date("Y-m-d H:i:s") . $event::class . " with data '" . json_encode($event->payload ?? []) . "'\n";
         $this->logger->info($entry);
     }
-
 }

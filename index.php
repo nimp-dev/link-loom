@@ -21,6 +21,7 @@ use Nimp\LinkLoom\interfaces\RepositoryInterface;
 use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
 use Nimp\LinkLoom\LinkPluginContainer;
 use Nimp\LinkLoom\observer\dispatcher\EventDispatcher;
+use Nimp\LinkLoom\observer\dispatcher\ListenerProvider;
 use Nimp\LinkLoom\observer\subscribers\LoggerSubscriber;
 use Nimp\LinkLoom\UrlShortener;
 use Nimp\LinkLoom\FileRepository;
@@ -50,12 +51,12 @@ $dependencies = [
         return new BaseCodeGenerator(8);
     },
     EventDispatcher::class => function (ContainerInterface $container) {
-        // Подключение подписчиков
-        $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addSubscriber(
-            $container->get(LoggerSubscriber::class)
-        );
-        return $eventDispatcher;
+        return new EventDispatcher($container->get(ListenerProvider::class));
+    },
+    ListenerProvider::class => function (ContainerInterface $container) {
+        $provider = new ListenerProvider();
+        $provider->addSubscriber($container->get(LoggerSubscriber::class));
+        return $provider;
     },
     LoggerSubscriber::class => function (ContainerInterface $container) {
         return new LoggerSubscriber(
