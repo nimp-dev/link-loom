@@ -1,4 +1,5 @@
 <?php
+
 namespace Nimp\LinkLoom;
 
 use Nimp\LinkLoom\entities\UrlCodePair;
@@ -9,10 +10,10 @@ use Nimp\LinkLoom\interfaces\IUrlEncode;
 use Nimp\LinkLoom\interfaces\RepositoryInterface;
 use Nimp\LinkLoom\exceptions\RepositoryDataException;
 use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
-use Nimp\LinkLoom\observer\events\BaseShortenerEvent;
 use Nimp\LinkLoom\observer\events\DecodeStartEvent;
 use Nimp\LinkLoom\observer\events\DecodeSuccessEvent;
 use Nimp\LinkLoom\observer\events\EncodeStartEvent;
+use Nimp\LinkLoom\observer\events\EncodeSuccessEvent;
 use Nimp\LinkLoom\observer\events\GetFromStorageErrorEvent;
 use Nimp\LinkLoom\observer\events\SaveErrorEvent;
 use Nimp\LinkLoom\observer\events\ValidateErrorEvent;
@@ -23,7 +24,7 @@ class UrlShortener implements IUrlDecode, IUrlEncode
     protected RepositoryInterface $repository;
     protected UrlValidatorInterface $validator;
     protected CodeGeneratorInterface $codeGenerator;
-    protected EventDispatcherInterface  $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * @param RepositoryInterface $repository
@@ -32,9 +33,9 @@ class UrlShortener implements IUrlDecode, IUrlEncode
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
-        RepositoryInterface $repository,
-        UrlValidatorInterface $validator,
-        CodeGeneratorInterface $codeGenerator,
+        RepositoryInterface      $repository,
+        UrlValidatorInterface    $validator,
+        CodeGeneratorInterface   $codeGenerator,
         EventDispatcherInterface $eventDispatcher,
     )
     {
@@ -51,12 +52,12 @@ class UrlShortener implements IUrlDecode, IUrlEncode
      */
     public function encode(string $url): string
     {
-        $this->eventDispatcher->dispatch(new EncodeStartEvent($this, ['url' => $url]));
+        $this->eventDispatcher->dispatch(new EncodeStartEvent($this, $url));
 
-        if(!$this->validator->validate($url)) {
+        if (!$this->validator->validate($url)) {
             $message = $this->validator->getMessageError();
 
-            $this->eventDispatcher->dispatch(new ValidateErrorEvent($this, ['message' => $message]));
+            $this->eventDispatcher->dispatch(new ValidateErrorEvent($this, $url, $message));
 
             throw new UrlShortenerException(
                 $message
@@ -65,13 +66,13 @@ class UrlShortener implements IUrlDecode, IUrlEncode
 
         try {
             $code = $this->repository->getCodeByUrl($url);
-        }catch (RepositoryDataException) {
+        } catch (RepositoryDataException) {
             $code = $this->codeGenerator->generate($url);
             $urlCodePair = new UrlCodePair($url, $code);
             if (!$this->repository->saveUrlEntity($urlCodePair)) {
 
                 $message = 'save entity error';
-                $this->eventDispatcher->dispatch(new SaveErrorEvent($this, ['message' => $message]));
+                $this->eventDispatcher->dispatch(new SaveErrorEvent($this, $message));
 
                 throw new UrlShortenerException(
                     $message
@@ -79,7 +80,7 @@ class UrlShortener implements IUrlDecode, IUrlEncode
             }
         }
 
-        $this->eventDispatcher->dispatch(new EncodeStartEvent($this, ['code' => $code]));
+        $this->eventDispatcher->dispatch(new EncodeSuccessEvent($this, $code));
         return $code;
     }
 
@@ -90,20 +91,20 @@ class UrlShortener implements IUrlDecode, IUrlEncode
      */
     public function decode(string $code): string
     {
-        $this->eventDispatcher->dispatch(new DecodeStartEvent($this, ['code' => $code]));
+        $this->eventDispatcher->dispatch(new DecodeStartEvent($this, $code));
 
         try {
             $url = $this->repository->getUrlByCode($code);
         } catch (RepositoryDataException $e) {
 
-            $this->eventDispatcher->dispatch(new GetFromStorageErrorEvent($this, ['code' => $code, 'error' => $e->getMessage()]));
+            $this->eventDispatcher->dispatch(new GetFromStorageErrorEvent($this, $code, $e->getMessage()));
 
             throw new UrlShortenerException(
                 $e->getMessage(),
             );
         }
 
-        $this->eventDispatcher->dispatch(new DecodeSuccessEvent($this, ['url' => $url]));
+        $this->eventDispatcher->dispatch(new DecodeSuccessEvent($this, $url));
         return $url;
     }
 

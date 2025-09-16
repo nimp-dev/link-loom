@@ -2,7 +2,7 @@
 
 namespace Nimp\LinkLoom\observer\subscribers;
 
-interface EventSubscriberInterface
+interface EventListenerInterface
 {
     /**
      * Возвращает список подписок:

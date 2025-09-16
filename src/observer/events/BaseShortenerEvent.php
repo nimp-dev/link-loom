@@ -2,15 +2,19 @@
 
 namespace Nimp\LinkLoom\observer\events;
 
-use Nimp\LinkLoom\observer\enums\EventEnum;
 use Nimp\LinkLoom\UrlShortener;
+use Nimp\LinkLoom\observer\events\NamedEventInterface;
 
-abstract class BaseShortenerEvent
+abstract class BaseShortenerEvent implements NamedEventInterface
 {
+
     public function __construct(
         public readonly UrlShortener $context,
-        public readonly array $payload,
-
     ) {}
+
+    public function eventName(): string|null
+    {
+        return static::class;
+    }
 
 }

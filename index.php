@@ -12,6 +12,7 @@ use Nimp\LinkLoom\CLI\commands\UrlDecodeCommand;
 use Nimp\LinkLoom\CLI\commands\UrlEncodeCommand;
 use Nimp\LinkLoom\CLI\Writer;
 use Nimp\LinkLoom\exceptions\RepositoryDataException;
+use Nimp\LinkLoom\exceptions\UrlShortenerException;
 use Nimp\LinkLoom\helpers\BaseCodeGenerator;
 use Nimp\LinkLoom\helpers\LoomLogger;
 use Nimp\LinkLoom\helpers\ConfigContainer;
@@ -22,7 +23,7 @@ use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
 use Nimp\LinkLoom\LinkPluginContainer;
 use Nimp\LinkLoom\observer\dispatcher\EventDispatcher;
 use Nimp\LinkLoom\observer\dispatcher\ListenerProvider;
-use Nimp\LinkLoom\observer\subscribers\LoggerSubscriber;
+use Nimp\LinkLoom\observer\subscribers\LoggerListener;
 use Nimp\LinkLoom\UrlShortener;
 use Nimp\LinkLoom\FileRepository;
 use Psr\Container\ContainerInterface;
@@ -55,20 +56,19 @@ $dependencies = [
     },
     ListenerProvider::class => function (ContainerInterface $container) {
         $provider = new ListenerProvider();
-        $provider->addSubscriber($container->get(LoggerSubscriber::class));
+        $provider->addListeners($container->get(LoggerListener::class));
         return $provider;
     },
-    LoggerSubscriber::class => function (ContainerInterface $container) {
-        return new LoggerSubscriber(
-            $container->get(\Psr\Log\LoggerInterface::class),
+    LoggerListener::class => function (ContainerInterface $container) {
+        return new LoggerListener(
+            $container->get(LoggerInterface::class),
         );
     },
     LoggerInterface::class => function (ContainerInterface $container) {
         return new Logger(
             'general',
             [
-                new StreamHandler(__DIR__ . '/logs/'.date('Y-m-d'), Level::Error),
-                new StreamHandler(__DIR__ . '/logs/'.date('Y-m-d'), Level::Info),
+                new StreamHandler(__DIR__ . '/logs/'.date('Y-m-d').'.log', Level::Debug),
             ]
         );
     }
@@ -79,9 +79,13 @@ LinkPluginContainer::instance()->addDependencies($dependencies);
 /** @var UrlShortener $shortener */
 $shortener = LinkPluginContainer::instance()->get(UrlShortener::class);
 
-$code = $shortener->encode('https://test2.com');
+try {
+    $code = $shortener->decode('e9b2e308');
+} catch (UrlShortenerException $e) {
+    $code = '';
+}
 
-print_r($code);
+//print_r($code);
 exit();
 try {
     $repository = new FileRepository($config->get('db.path'), $config->get('db.maxSize'));
