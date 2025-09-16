@@ -2,9 +2,9 @@
 
 namespace Nimp\LinkLoom\observer\dispatcher;
 
+use Nimp\LinkLoom\interfaces\EventListenerInterface;
+use Nimp\LinkLoom\interfaces\NamedEventInterface;
 use Nimp\LinkLoom\observer\events\BaseShortenerEvent;
-use Nimp\LinkLoom\observer\events\NamedEventInterface;
-use Nimp\LinkLoom\observer\subscribers\EventListenerInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 class ListenerProvider implements ListenerProviderInterface

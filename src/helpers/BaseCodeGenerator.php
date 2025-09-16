@@ -22,6 +22,6 @@ class BaseCodeGenerator implements CodeGeneratorInterface
     public function generate(string $url): string
     {
         $hash = hash('md5', $url . time());
-        return mb_substr($hash,0,$this->length);
+        return mb_substr($hash,0, $this->length);
     }
 }

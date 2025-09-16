@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimp\LinkLoom\observer\events;
+namespace Nimp\LinkLoom\interfaces;
 
 interface NamedEventInterface
 {

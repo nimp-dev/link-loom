@@ -2,12 +2,13 @@
 
 namespace Nimp\LinkLoom\observer\subscribers;
 
+use Nimp\LinkLoom\interfaces\EventListenerInterface;
+use Nimp\LinkLoom\interfaces\NamedEventInterface;
 use Nimp\LinkLoom\observer\events\DecodeStartEvent;
 use Nimp\LinkLoom\observer\events\DecodeSuccessEvent;
 use Nimp\LinkLoom\observer\events\EncodeStartEvent;
 use Nimp\LinkLoom\observer\events\EncodeSuccessEvent;
 use Nimp\LinkLoom\observer\events\GetFromStorageErrorEvent;
-use Nimp\LinkLoom\observer\events\NamedEventInterface;
 use Nimp\LinkLoom\observer\events\SaveErrorEvent;
 use Nimp\LinkLoom\observer\events\ValidateErrorEvent;
 use Psr\Log\LoggerInterface;
