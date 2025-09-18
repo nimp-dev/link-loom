@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimp\LinkLoom\abstracts;
+namespace Nimp\LinkLoom\CLI\abstracts;
 
 use Exception;
 

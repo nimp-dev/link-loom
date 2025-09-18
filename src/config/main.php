@@ -1,20 +1,17 @@
 <?php
 
-use Monolog\Logger;
-use Nimp\LinkLoom\helpers\UrlValidator;
 
 return [
-    'db' => [
-        'path' => __DIR__ . '/../../storage/file-storage.json',
-        'maxSize' => 10,
+    'logging' => [
+        'path' => __DIR__ . '/../../logs/'.date('Y-m-d').'.log',
+        'level' => \Monolog\Level::Debug,
+        'channel' => 'general'
     ],
-    'validator' => [
-        'class' => UrlValidator::class,
-        'httpClient' => false,
+    'code' => [
+        'length' => 8,
     ],
-    'logger' => [
-        'class' => Logger::class,
-        'pathError' => __DIR__ . '/../../logs/error.log',
-        'pathInfo' => __DIR__ . '/../../logs/info.log',
+    'storage' => [
+        'file' => __DIR__ . '/../../storage/file-storage.json',
+        'ttl' => 10,
     ],
 ];

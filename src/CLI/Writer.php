@@ -2,7 +2,7 @@
 
 namespace Nimp\LinkLoom\CLI;
 
-use Nimp\LinkLoom\abstracts\Singleton;
+use Nimp\LinkLoom\CLI\abstracts\Singleton;
 use Nimp\LinkLoom\interfaces\WriterInterfaces;
 
 class Writer extends Singleton implements WriterInterfaces
