@@ -4,12 +4,12 @@ namespace Nimp\LinkLoom\interfaces;
 
 use Nimp\LinkLoom\exceptions\UrlShortenerException;
 
-interface IUrlEncode
+interface UrlDecodeInterface
 {
     /**
-     * @param string $url
+     * @param string $code
      * @return string
      * @throws UrlShortenerException
      */
-    public function encode(string $url): string;
+    public function decode(string $code): string;
 }

@@ -2,53 +2,56 @@
 
 require_once 'vendor/autoload.php';
 
-use Nimp\LinkLoom\exceptions\UrlShortenerException;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Nimp\LinkLoom\DI\provider\CodeGeneratorProvider;
+use Nimp\LinkLoom\DI\provider\EventsProvider;
+use Nimp\LinkLoom\DI\provider\LoggingProvider;
+use Nimp\LinkLoom\DI\provider\RepositoryProvider;
+use Nimp\LinkLoom\DI\provider\ValidatorProvider;
+use Nimp\LinkLoom\factory\BuilderInterface;
 use Nimp\LinkLoom\factory\UrlShortenerFactory;
-use Psr\Log\LoggerInterface;
+
+
+// ========== by constructor ==========
 
 
 try {
-
-//    $config = [
-//        'logging' => [
-//            'path' => __DIR__ . '/logs/'.date('Y-m-d').'.log',
-//            'level' => \Monolog\Level::Debug,
-//            'channel' => 'general'
-//        ],
-//        'code' => [
-//            'length' => 8,
-//        ],
-//        'storage' => [
-//            'file' => __DIR__ . '/storage/file-storage.json',
-//            'ttl' => 10,
-//        ],
-//    ];
-//    $lumConfig = UrlShortenerFactory::createConfigFromArray($config);
-//    $container = UrlShortenerFactory::createDefaultContainer($lumConfig);
-//    $logger = $container->get(LoggerInterface::class);
-//    $logger->error('test');
-//    var_dump($lumConfig);;
-
-    $shortener = \Nimp\LinkLoom\factory\UrlShortenerFactory::create(
-        [
-            'logging' => [
-                'path' => __DIR__ . '/logs/'.date('Y-m-d').'.log',
-                'level' => \Monolog\Level::Debug,
-                'channel' => 'general'
-            ],
-            'code' => [
-                'length' => 8,
-            ],
-            'storage' => [
-                'file' => __DIR__ . '/storage/file-storage.json',
-                'ttl' => 10,
-            ],
-        ],
+    $shortener = new \Nimp\LinkLoom\UrlShortenerInterfaceInterface(
+      new \Nimp\LinkLoom\FileRepository(__DIR__.'/storage/file-storage.json', 10),
+      new \Nimp\LinkLoom\helpers\UrlValidator(),
+      new \Nimp\LinkLoom\helpers\BaseCodeGenerator(8),
+      new \Nimp\LinkLoom\observer\dispatcher\EventDispatcher(
+          new \Nimp\LinkLoom\observer\dispatcher\ListenerProvider()
+      ),
     );
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
-    $code = $shortener->encode('https://balumba3.ua');
-    echo $code;
+
+// ==========
+
+
+
+
+// ========== by di configuration ==========
+try {
+
+    $providers = [
+        new LoggingProvider(__DIR__.'/logs/'.date('Y-m-d').'.log', \Monolog\Level::Debug, 'general'),
+        new EventsProvider(),
+        new RepositoryProvider(__DIR__.'/storage/file-storage.json', 10),
+        new CodeGeneratorProvider(8),
+        new ValidatorProvider(),
+    ];
+    $shortener = UrlShortenerFactory::create($providers);
+
+    $shortener->encode('https://github.com/nimp-linkloom');
 
 } catch (Exception $e) {
     echo $e->getMessage();
 }
+// ==========
+
+

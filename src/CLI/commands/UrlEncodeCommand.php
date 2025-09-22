@@ -6,17 +6,17 @@ use Nimp\LinkLoom\CLI\Color;
 use Nimp\LinkLoom\CLI\exceptions\CliCommandException;
 use Nimp\LinkLoom\CLI\interfaces\CliCommandInterface;
 use Nimp\LinkLoom\CLI\Writer;
-use Nimp\LinkLoom\UrlShortener;
+use Nimp\LinkLoom\UrlShortenerInterfaceInterface;
 
 class UrlEncodeCommand implements CliCommandInterface
 {
 
-    protected UrlShortener $shortener;
+    protected UrlShortenerInterfaceInterface $shortener;
 
     /**
-     * @param UrlShortener $shortener
+     * @param UrlShortenerInterfaceInterface $shortener
      */
-    public function __construct(UrlShortener $shortener)
+    public function __construct(UrlShortenerInterfaceInterface $shortener)
     {
         $this->shortener = $shortener;
     }

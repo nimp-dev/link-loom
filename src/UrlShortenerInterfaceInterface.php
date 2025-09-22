@@ -5,8 +5,8 @@ namespace Nimp\LinkLoom;
 use Nimp\LinkLoom\entities\UrlCodePair;
 use Nimp\LinkLoom\exceptions\UrlShortenerException;
 use Nimp\LinkLoom\interfaces\CodeGeneratorInterface;
-use Nimp\LinkLoom\interfaces\IUrlDecode;
-use Nimp\LinkLoom\interfaces\IUrlEncode;
+use Nimp\LinkLoom\interfaces\UrlDecodeInterface;
+use Nimp\LinkLoom\interfaces\UrlEncodeInterface;
 use Nimp\LinkLoom\interfaces\RepositoryInterface;
 use Nimp\LinkLoom\exceptions\RepositoryDataException;
 use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
@@ -19,7 +19,7 @@ use Nimp\LinkLoom\observer\events\SaveErrorEvent;
 use Nimp\LinkLoom\observer\events\ValidateErrorEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-class UrlShortener implements IUrlDecode, IUrlEncode
+class UrlShortenerInterfaceInterface implements UrlDecodeInterface, UrlEncodeInterface
 {
     protected RepositoryInterface $repository;
     protected UrlValidatorInterface $validator;
