@@ -22,7 +22,7 @@ final class RedisRepository implements RepositoryInterface
     private string $prefix;
     private int $ttl; // seconds; 0 means no expiration
 
-    public function __construct(Redis $redis, string $prefix = 'linkloom', int $ttl = 0)
+    public function __construct(Redis $redis, int $ttl = 0, string $prefix = 'linkloom')
     {
         $this->redis  = $redis;
         $this->prefix = rtrim($prefix, ':');

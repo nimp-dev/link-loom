@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final readonly class RedisRepositoryProvider implements ServiceProviderInterface
 {
     public function __construct(
-        private string $dsn,    // redis://host:port/db
+        private \Redis $redis,
         private int    $ttl,
         private string $prefix = 'linkloom:'
     ) {}
@@ -19,9 +19,10 @@ final readonly class RedisRepositoryProvider implements ServiceProviderInterface
     {
         $container
             ->register(RepositoryInterface::class, RedisRepository::class)
-            ->addArgument($this->dsn)
+            ->addArgument($this->redis)
             ->addArgument($this->ttl)
-            ->addArgument($this->prefix);
+            ->addArgument($this->prefix)
+            ->setPublic(true);
     }
 
 }

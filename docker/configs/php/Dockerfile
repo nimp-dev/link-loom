@@ -2,7 +2,9 @@ FROM php:8.3-fpm
 
 RUN apt-get update && apt-get install -y wget git unzip \
     && pecl install xdebug \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 RUN docker-php-ext-install pdo pdo_mysql
 
