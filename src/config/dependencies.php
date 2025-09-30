@@ -12,14 +12,14 @@ use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
 use Nimp\LinkLoom\observer\dispatcher\EventDispatcher;
 use Nimp\LinkLoom\observer\dispatcher\ListenerProvider;
 use Nimp\LinkLoom\observer\subscribers\LoggerListener;
-use Nimp\LinkLoom\UrlShortenerInterfaceInterface;
+use Nimp\LinkLoom\UrlShortener;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 return [
 
-    UrlShortenerInterfaceInterface::class => function (ContainerInterface $container) {
-        return new UrlShortenerInterfaceInterface(
+    UrlShortener::class => function (ContainerInterface $container) {
+        return new UrlShortener(
             $container->get(RepositoryInterface::class),
             $container->get(UrlValidatorInterface::class),
             $container->get(CodeGeneratorInterface::class),

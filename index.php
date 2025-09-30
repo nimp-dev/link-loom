@@ -9,28 +9,7 @@ use Nimp\LinkLoom\DI\provider\EventsProvider;
 use Nimp\LinkLoom\DI\provider\LoggingProvider;
 use Nimp\LinkLoom\DI\provider\RepositoryProvider;
 use Nimp\LinkLoom\DI\provider\ValidatorProvider;
-use Nimp\LinkLoom\factory\BuilderInterface;
 use Nimp\LinkLoom\factory\UrlShortenerFactory;
-
-
-// ========== by constructor ==========
-
-
-try {
-    $shortener = new \Nimp\LinkLoom\UrlShortenerInterfaceInterface(
-      new \Nimp\LinkLoom\FileRepository(__DIR__.'/storage/file-storage.json', 10),
-      new \Nimp\LinkLoom\helpers\UrlValidator(),
-      new \Nimp\LinkLoom\helpers\BaseCodeGenerator(8),
-      new \Nimp\LinkLoom\observer\dispatcher\EventDispatcher(
-          new \Nimp\LinkLoom\observer\dispatcher\ListenerProvider()
-      ),
-    );
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
-
-
-// ==========
 
 
 

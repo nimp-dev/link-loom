@@ -19,7 +19,7 @@ use Nimp\LinkLoom\observer\events\SaveErrorEvent;
 use Nimp\LinkLoom\observer\events\ValidateErrorEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-class UrlShortenerInterfaceInterface implements UrlDecodeInterface, UrlEncodeInterface
+class UrlShortener implements UrlDecodeInterface, UrlEncodeInterface
 {
     protected RepositoryInterface $repository;
     protected UrlValidatorInterface $validator;
