@@ -5,7 +5,7 @@ namespace Nimp\LinkLoom\DI\provider;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
-use Nimp\LinkLoom\DI\ServiceProviderInterface;
+use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -14,7 +14,7 @@ final readonly class LoggingProvider implements ServiceProviderInterface
     public function __construct(
         private string $path,
         private Level  $level,
-        private string $channel = 'general'
+        private int $channel
     ) {}
 
     public function register(ContainerBuilder $container): void

@@ -3,12 +3,8 @@
 namespace Nimp\LinkLoom\factory;
 
 use Exception;
-use Nimp\LinkLoom\DI\ServiceProviderInterface;
-use Nimp\LinkLoom\DI\Provider\LoggingProvider;
-use Nimp\LinkLoom\DI\Provider\RepositoryProvider;
-use Nimp\LinkLoom\DI\Provider\CodeGeneratorProvider;
-use Nimp\LinkLoom\DI\Provider\EventsProvider;
-use Nimp\LinkLoom\UrlShortener;
+use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
+use Nimp\LinkLoomCore\UrlShortener;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class UrlShortenerFactory

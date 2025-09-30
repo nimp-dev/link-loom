@@ -1,8 +1,8 @@
 <?php
 
-namespace Nimp\LinkLoom\helpers;
+namespace Nimp\LinkLoom\implementation;
 
-use Nimp\LinkLoom\interfaces\CodeGeneratorInterface;
+use Nimp\LinkLoomCore\interfaces\CodeGeneratorInterface;
 
 class BaseCodeGenerator implements CodeGeneratorInterface
 {

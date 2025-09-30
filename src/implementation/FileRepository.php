@@ -1,10 +1,10 @@
 <?php
 
-namespace Nimp\LinkLoom;
+namespace Nimp\LinkLoom\implementation;
 
-use Nimp\LinkLoom\entities\UrlCodePair;
-use Nimp\LinkLoom\exceptions\RepositoryDataException;
-use Nimp\LinkLoom\interfaces\RepositoryInterface;
+use Nimp\LinkLoomCore\exceptions\RepositoryDataException;
+use Nimp\LinkLoomCore\interfaces\RepositoryInterface;
+use Nimp\LinkLoomCore\entities\UrlCodePair;
 
 class FileRepository implements RepositoryInterface
 {

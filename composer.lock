@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67f006293d8d8194a1788153f404c628",
+    "content-hash": "80b482259207f5b711b7063c273788d3",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -109,6 +109,90 @@
                 }
             ],
             "time": "2025-04-03T11:44:45+00:00"
+        },
+        {
+            "name": "nimp/link-loom-core",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nimp-dev/link-loom-core.git",
+                "reference": "aa6b7bc38a8a5bc62f38ae6a49f00d128f3519a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nimp-dev/link-loom-core/zipball/aa6b7bc38a8a5bc62f38ae6a49f00d128f3519a3",
+                "reference": "aa6b7bc38a8a5bc62f38ae6a49f00d128f3519a3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "psr/event-dispatcher": "1.*"
+            },
+            "require-dev": {
+                "nimp/observer": "^1.0",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nimp\\LinkLoomCore\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yehor Konopka"
+                }
+            ],
+            "description": "This package is designed to create short links and decode them back",
+            "support": {
+                "issues": "https://github.com/nimp-dev/link-loom-core/issues",
+                "source": "https://github.com/nimp-dev/link-loom-core/tree/v1.0.1"
+            },
+            "time": "2025-09-30T10:17:10+00:00"
+        },
+        {
+            "name": "nimp/observer",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nimp-dev/observer.git",
+                "reference": "0d661b2753633814559c2dfa5105f7d157780c88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nimp-dev/observer/zipball/0d661b2753633814559c2dfa5105f7d157780c88",
+                "reference": "0d661b2753633814559c2dfa5105f7d157780c88",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.3",
+                "psr/event-dispatcher": "1.*"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nimp\\Observer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "minimal realization lets the text editor object notify other service objects about changes in its state",
+            "support": {
+                "issues": "https://github.com/nimp-dev/observer/issues",
+                "source": "https://github.com/nimp-dev/observer/tree/v1.0.4"
+            },
+            "time": "2025-09-29T14:39:45+00:00"
         },
         {
             "name": "psr/container",

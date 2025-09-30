@@ -4,11 +4,12 @@ require_once 'vendor/autoload.php';
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Nimp\LinkLoom\DI\provider\CodeGeneratorProvider;
+use Nimp\LinkLoom\DI\provider\BaseCodeGeneratorProvider;
 use Nimp\LinkLoom\DI\provider\EventsProvider;
+use Nimp\LinkLoom\DI\provider\LoggerListenerProvider;
+use Nimp\LinkLoom\DI\provider\FileRepositoryProvider;
+use Nimp\LinkLoom\DI\provider\BaseValidatorProvider;
 use Nimp\LinkLoom\DI\provider\LoggingProvider;
-use Nimp\LinkLoom\DI\provider\RepositoryProvider;
-use Nimp\LinkLoom\DI\provider\ValidatorProvider;
 use Nimp\LinkLoom\factory\UrlShortenerFactory;
 
 
@@ -18,16 +19,24 @@ use Nimp\LinkLoom\factory\UrlShortenerFactory;
 try {
 
     $providers = [
-        new LoggingProvider(__DIR__.'/logs/'.date('Y-m-d').'.log', \Monolog\Level::Debug, 'general'),
-        new EventsProvider(),
-        new RepositoryProvider(__DIR__.'/storage/file-storage.json', 10),
-        new CodeGeneratorProvider(8),
-        new ValidatorProvider(),
+//        new LoggingProvider(__DIR__.'/logs/'.date('Y-m-d').'.log', \Monolog\Level::Debug, 'general'),
+//        new FileRepositoryProvider(__DIR__.'/storage/file-storage.json', 10),
+//        new BaseCodeGeneratorProvider(8),
+//        new BaseValidatorProvider(),
+//        new EventsProvider(), // сам подхватит LoggerListener
+
+
+        new LoggingProvider(__DIR__.'/logs/'.date('Y-m-d').'.log', \Monolog\Level::Debug, \Monolog\Level::Debug->value),
+        new LoggerListenerProvider(),   // регистрирует LoggerListener
+        new EventsProvider(),          // подхватит все слушатели
+        new FileRepositoryProvider(__DIR__.'/storage/file-storage.json', 10),
+        new BaseCodeGeneratorProvider(8),
+        new BaseValidatorProvider(),
     ];
     $shortener = UrlShortenerFactory::create($providers);
 
-    $shortener->encode('https://github.com/nimp-linkloom');
-
+    $code = $shortener->encode('https://github.com/nimp-linkloom');
+    echo $code;
 } catch (Exception $e) {
     echo $e->getMessage();
 }

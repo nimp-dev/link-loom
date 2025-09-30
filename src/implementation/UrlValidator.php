@@ -1,8 +1,8 @@
 <?php
 
-namespace Nimp\LinkLoom\helpers;
+namespace Nimp\LinkLoom\implementation;
 
-use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
+use Nimp\LinkLoomCore\interfaces\UrlValidatorInterface;
 
 class UrlValidator implements UrlValidatorInterface
 {

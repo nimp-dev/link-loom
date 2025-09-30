@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimp\LinkLoom\interfaces;
+namespace Nimp\LinkLoom\CLI\interfaces;
 
 interface WriterInterfaces
 {

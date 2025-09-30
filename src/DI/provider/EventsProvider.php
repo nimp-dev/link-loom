@@ -2,10 +2,10 @@
 
 namespace Nimp\LinkLoom\DI\provider;
 
-use Nimp\LinkLoom\DI\ServiceProviderInterface;
-use Nimp\LinkLoom\observer\dispatcher\EventDispatcher;
-use Nimp\LinkLoom\observer\dispatcher\ListenerProvider;
-use Nimp\LinkLoom\observer\subscribers\LoggerListener;
+use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
+use Nimp\Observer\EventDispatcher;
+use Nimp\Observer\EventListenerInterface;
+use Nimp\Observer\ListenerProvider;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface as PsrListenerProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,36 +15,39 @@ final class EventsProvider implements ServiceProviderInterface
 {
     public function register(ContainerBuilder $container): void
     {
-        // LoggerListener можно переопределить извне: регистрируем только если нет
-        if (!$container->has(LoggerListener::class)) {
-            $container
-                ->register(LoggerListener::class, LoggerListener::class)
-                ->setAutowired(true);
-        }
-
-        // Конкретный провайдер слушателей
+        // Базовый ListenerProvider
         if (!$container->has(ListenerProvider::class)) {
             $container
                 ->register(ListenerProvider::class, ListenerProvider::class)
-                ->addMethodCall('addListeners', [new Reference(LoggerListener::class)]);
+                ->setPublic(true);
         }
 
-        // ВАЖНО: алиас PSR-интерфейса на конкретный провайдер
+        // Алиас PSR ListenerProvider
         if (!$container->has(PsrListenerProviderInterface::class)) {
             $container->setAlias(PsrListenerProviderInterface::class, ListenerProvider::class);
         }
 
-        // Конкретный диспетчер событий
+        // Диспетчер
         if (!$container->has(EventDispatcher::class)) {
             $container
                 ->register(EventDispatcher::class, EventDispatcher::class)
-                // Явно указываем зависимость через PSR-интерфейс (можно и autowire, но так явно)
-                ->addArgument(new Reference(PsrListenerProviderInterface::class));
+                ->addArgument(new Reference(PsrListenerProviderInterface::class))
+                ->setPublic(true);
         }
 
-        // Алиас PSR-диспетчера на конкретный
+        // Алиас PSR Dispatcher
         if (!$container->has(EventDispatcherInterface::class)) {
             $container->setAlias(EventDispatcherInterface::class, EventDispatcher::class);
+        }
+
+        // Автоматическая регистрация всех слушателей
+        foreach ($container->getDefinitions() as $id => $definition) {
+            $class = $definition->getClass();
+            if ($class && is_subclass_of($class, EventListenerInterface::class)) {
+                $container
+                    ->getDefinition(ListenerProvider::class)
+                    ->addMethodCall('addListeners', [new Reference($id)]);
+            }
         }
     }
 }

@@ -2,15 +2,16 @@
 
 namespace Nimp\LinkLoom\observer\subscribers;
 
-use Nimp\LinkLoom\interfaces\EventListenerInterface;
-use Nimp\LinkLoom\interfaces\NamedEventInterface;
-use Nimp\LinkLoom\observer\events\DecodeStartEvent;
-use Nimp\LinkLoom\observer\events\DecodeSuccessEvent;
-use Nimp\LinkLoom\observer\events\EncodeStartEvent;
-use Nimp\LinkLoom\observer\events\EncodeSuccessEvent;
-use Nimp\LinkLoom\observer\events\GetFromStorageErrorEvent;
-use Nimp\LinkLoom\observer\events\SaveErrorEvent;
-use Nimp\LinkLoom\observer\events\ValidateErrorEvent;
+
+use Nimp\LinkLoomCore\observer\events\DecodeStartEvent;
+use Nimp\LinkLoomCore\observer\events\DecodeSuccessEvent;
+use Nimp\LinkLoomCore\observer\events\EncodeStartEvent;
+use Nimp\LinkLoomCore\observer\events\EncodeSuccessEvent;
+use Nimp\LinkLoomCore\observer\events\GetFromStorageErrorEvent;
+use Nimp\LinkLoomCore\observer\events\SaveErrorEvent;
+use Nimp\LinkLoomCore\observer\events\ValidateErrorEvent;
+use Nimp\Observer\EventListenerInterface;
+use Nimp\Observer\NamedEventInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggerListener implements EventListenerInterface

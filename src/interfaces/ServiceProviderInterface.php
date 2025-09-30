@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimp\LinkLoom\DI;
+namespace Nimp\LinkLoom\interfaces;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

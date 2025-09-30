@@ -2,17 +2,16 @@
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Nimp\LinkLoom\entities\LinkLoomConfig;
-use Nimp\LinkLoom\FileRepository;
-use Nimp\LinkLoom\helpers\BaseCodeGenerator;
-use Nimp\LinkLoom\helpers\UrlValidator;
-use Nimp\LinkLoom\interfaces\CodeGeneratorInterface;
-use Nimp\LinkLoom\interfaces\RepositoryInterface;
-use Nimp\LinkLoom\interfaces\UrlValidatorInterface;
-use Nimp\LinkLoom\observer\dispatcher\EventDispatcher;
-use Nimp\LinkLoom\observer\dispatcher\ListenerProvider;
+use Nimp\LinkLoom\implementation\BaseCodeGenerator;
+use Nimp\LinkLoom\implementation\FileRepository;
+use Nimp\LinkLoom\implementation\UrlValidator;
 use Nimp\LinkLoom\observer\subscribers\LoggerListener;
-use Nimp\LinkLoom\UrlShortener;
+use Nimp\LinkLoomCore\interfaces\CodeGeneratorInterface;
+use Nimp\LinkLoomCore\interfaces\RepositoryInterface;
+use Nimp\LinkLoomCore\interfaces\UrlValidatorInterface;
+use Nimp\LinkLoomCore\UrlShortener;
+use Nimp\Observer\EventDispatcher;
+use Nimp\Observer\ListenerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
