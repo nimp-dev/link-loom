@@ -64,6 +64,9 @@ class UrlShortenerBuilder implements ShortenerBuilderInterface
      */
     public function addListener(EventListenerInterface $listener): self
     {
+        if (in_array($listener, $this->listeners, true)) {
+            return $this;
+        }
         $this->listeners[] = $listener;
         return $this;
     }

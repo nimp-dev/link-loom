@@ -1,13 +1,12 @@
 {
     "name": "nimp/link-loom",
-    "description": "This package is designed to create short links and decode them back",
-    "type": "project",
+    "description": "This package provides a PHP URL Shortener Library",
+    "type": "library",
     "require": {
         "php": "^8.3",
         "monolog/monolog": "3.*",
         "psr/container": "2.*",
         "psr/event-dispatcher": "1.*",
-        "symfony/dependency-injection": "7.3.0",
         "nimp/link-loom-core": "1.*",
         "nimp/observer": "1.*",
         "ext-mbstring": "*",
