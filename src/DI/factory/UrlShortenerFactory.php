@@ -1,9 +1,9 @@
 <?php
 
-namespace Nimp\LinkLoom\factory;
+namespace Nimp\LinkLoom\DI\factory;
 
 use Exception;
-use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
+use Nimp\LinkLoom\DI\ServiceProviderInterface;
 use Nimp\LinkLoomCore\UrlShortener;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

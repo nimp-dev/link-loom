@@ -2,8 +2,8 @@
 
 namespace Nimp\LinkLoom\DI\provider;
 
+use Nimp\LinkLoom\DI\ServiceProviderInterface;
 use Nimp\LinkLoom\implementation\BaseCodeGenerator;
-use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
 use Nimp\LinkLoomCore\interfaces\CodeGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

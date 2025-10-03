@@ -9,9 +9,19 @@ services:
     volumes:
       - ./:/srv/link-loom
       - ./docker/configs/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - backend
 
   redis:
     image: redis:latest
+    volumes:
+      - ./docker/configs/redis/data:/data
     ports:
       - "6379:6379"
+    networks:
+      - backend
+      - monitoring  # отдельная сеть для мониторинга
 
+networks:
+  backend:
+  monitoring:

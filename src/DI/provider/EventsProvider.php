@@ -2,7 +2,7 @@
 
 namespace Nimp\LinkLoom\DI\provider;
 
-use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
+use Nimp\LinkLoom\DI\ServiceProviderInterface;
 use Nimp\Observer\EventDispatcher;
 use Nimp\Observer\EventListenerInterface;
 use Nimp\Observer\ListenerProvider;

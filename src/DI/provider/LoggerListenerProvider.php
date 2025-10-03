@@ -2,12 +2,10 @@
 
 namespace Nimp\LinkLoom\DI\provider;
 
-use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
-use Nimp\LinkLoom\observer\subscribers\LoggerListener;
+use Nimp\LinkLoom\DI\ServiceProviderInterface;
+use Nimp\LinkLoom\observer\listeners\LoggerListener;
 use Nimp\Observer\EventListenerInterface;
-use Nimp\Observer\ListenerProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 final class LoggerListenerProvider implements ServiceProviderInterface
 {

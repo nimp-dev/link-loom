@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimp\LinkLoom\observer\subscribers;
+namespace Nimp\LinkLoom\observer\listeners;
 
 
 use Nimp\LinkLoomCore\observer\events\DecodeStartEvent;

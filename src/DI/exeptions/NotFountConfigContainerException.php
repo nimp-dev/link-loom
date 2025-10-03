@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimp\LinkLoom\exceptions;
+namespace Nimp\LinkLoom\DI\exeptions;
 
 use InvalidArgumentException;
 use Psr\Container\NotFoundExceptionInterface;

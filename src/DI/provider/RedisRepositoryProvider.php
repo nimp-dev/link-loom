@@ -2,8 +2,8 @@
 
 namespace Nimp\LinkLoom\DI\provider;
 
+use Nimp\LinkLoom\DI\ServiceProviderInterface;
 use Nimp\LinkLoom\implementation\RedisRepository;
-use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
 use Nimp\LinkLoomCore\interfaces\RepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

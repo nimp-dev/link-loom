@@ -5,7 +5,7 @@ namespace Nimp\LinkLoom\DI\provider;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
-use Nimp\LinkLoom\interfaces\ServiceProviderInterface;
+use Nimp\LinkLoom\DI\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
