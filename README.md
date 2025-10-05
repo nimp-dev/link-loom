@@ -1,5 +1,10 @@
 # LinkLoom - PHP URL Shortener Library
 
+![Tests](https://github.com/nimp-dev/link-loom/actions/workflows/tests.yml/badge.svg)
+![PHPStan](https://github.com/nimp-dev/link-loom/actions/workflows/phpstan.yml/badge.svg)
+![Code Coverage](https://codecov.io/gh/nimp-dev/link-loom/branch/main/graph/badge.svg)
+![PHP Version](https://img.shields.io/badge/PHP-8.3%2B-blue.svg)
+
 A flexible, extensible URL shortener library for PHP applications with multiple storage backends and event-driven architecture.
 
 ## Features
@@ -15,6 +20,7 @@ A flexible, extensible URL shortener library for PHP applications with multiple 
 ```bash
 composer require nimp/link-loom
 ```
+
 ## Quick Start
 ### Basic Usage with Redis
 ```php

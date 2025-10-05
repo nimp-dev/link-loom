@@ -33,7 +33,12 @@
       "phpstan/phpstan": "^2.1"
     },
     "scripts": {
-      "test": "phpunit --colors=always"
+      "test": "phpunit --colors=always",
+      "test-coverage": "phpunit --coverage-html coverage",
+      "phpstan": "phpstan analyse src tests --level=8",
+      "phpstan-ci": "phpstan analyse src tests --level=8 --error-format=github",
+      "audit": "composer audit",
+      "validate": "composer validate --strict"
     },
     "minimum-stability": "dev"
 }
