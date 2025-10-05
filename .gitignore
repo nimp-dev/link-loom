@@ -2,5 +2,6 @@
 /storage/
 /logs/
 /docker/configs/redis/data
+/.phpunit.cache/
 .idea/
 .DS_Store

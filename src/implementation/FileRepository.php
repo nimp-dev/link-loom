@@ -8,9 +8,16 @@ use Nimp\LinkLoomCore\entities\UrlCodePair;
 
 class FileRepository implements RepositoryInterface
 {
-
+    /**
+     * @var array<string, string> Storage array where key is code and value is URL
+     */
     protected array $db;
+
+    /**
+     * @var string File path
+     */
     protected string $file;
+
     /**
      * @var int Maximum file size in bytes
      */
@@ -29,13 +36,10 @@ class FileRepository implements RepositoryInterface
         $this->file = $file;
         $this->maxItemCount = $maxItemCount;
 
-        $this->db = (array)json_decode(
-            file_get_contents($this->file),
-            true
-        );
+        $content = file_get_contents($this->file);
+        $this->db = $content ? (array)json_decode($content, true) : [];
         $this->checkFileSize();
     }
-
 
     /**
      * Write to a file only when the program is running
@@ -45,7 +49,7 @@ class FileRepository implements RepositoryInterface
         $this->checkFileSize();
         file_put_contents(
             $this->file,
-            json_encode($this->db,JSON_PRETTY_PRINT)
+            json_encode($this->db, JSON_PRETTY_PRINT)
         );
     }
 
@@ -65,8 +69,8 @@ class FileRepository implements RepositoryInterface
      */
     public function getCodeByUrl(string $url): string
     {
-        $code = array_search($url, $this->db);
-        if (!$code) {
+        $code = array_search($url, $this->db, true);
+        if ($code === false) {
             throw new RepositoryDataException('unknown url');
         }
         return $code;
@@ -77,8 +81,6 @@ class FileRepository implements RepositoryInterface
      */
     public function saveUrlEntity(UrlCodePair $urlCodePair): bool
     {
-        /** TODO добавить в entity дату expiredTime */
-        /** TODO entity тогда можно просто назвать UrlEntity */
         if ($this->issetCode($urlCodePair->getCode())) {
             return false;
         }
@@ -107,9 +109,12 @@ class FileRepository implements RepositoryInterface
         }
     }
 
-    protected function cleanupData($count): void
+    /**
+     * @param int $count
+     * @return void
+     */
+    protected function cleanupData(int $count): void
     {
         $this->db = array_slice($this->db, $count, null, true);
     }
-
 }

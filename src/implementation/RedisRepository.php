@@ -36,7 +36,7 @@ final class RedisRepository implements RepositoryInterface
     {
         $url = $this->redis->get($this->codeKey($code));
 
-        if ($url === false || $url === null) {
+        if ($url === false || !is_string($url)) {
             throw new RepositoryDataException("Unknown code: {$code}");
         }
 
@@ -50,7 +50,7 @@ final class RedisRepository implements RepositoryInterface
     {
         $code = $this->redis->get($this->urlKey($url));
 
-        if ($code === false || $code === null) {
+        if ($code === false || !is_string($code)) {
             throw new RepositoryDataException("Unknown url: {$url}");
         }
 

@@ -18,7 +18,7 @@ try {
         ->build();
 
 
-    $code = $shortener->encode('https://github.com/nimp-dev/link-loome/test2');
+    $code = $shortener->encode('https://github.com/nimp-dev/link-loome/test');
     echo $code;
 } catch (Exception $e) {
     echo $e->getMessage();

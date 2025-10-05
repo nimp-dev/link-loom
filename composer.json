@@ -1,5 +1,10 @@
 {
     "name": "nimp/link-loom",
+    "authors": [
+      {
+        "name": "Yehor Konopka"
+      }
+    ],
     "description": "This package provides a PHP URL Shortener Library",
     "type": "library",
     "require": {
@@ -18,10 +23,17 @@
             "Nimp\\LinkLoom\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "Yehor Konopka"
-        }
-    ],
+    "autoload-dev": {
+      "psr-4": {
+        "Nimp\\LinkLoom\\Tests\\": "tests/"
+      }
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^11.2",
+      "phpstan/phpstan": "^2.1"
+    },
+    "scripts": {
+      "test": "phpunit --colors=always"
+    },
     "minimum-stability": "dev"
 }

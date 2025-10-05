@@ -24,7 +24,7 @@ class LoggerListener implements EventListenerInterface
     }
 
     /**
-     * @return iterable
+     * @inheritdoc
      */
     public function events(): iterable
     {
@@ -128,6 +128,6 @@ class LoggerListener implements EventListenerInterface
      */
     public function createPrefix(NamedEventInterface $event): string
     {
-        return basename(str_replace('\\', '/', $event->eventName())) . ' ';
+        return basename(str_replace('\\', '/', $event->eventName() ?? $event::class)) . ' ';
     }
 }
