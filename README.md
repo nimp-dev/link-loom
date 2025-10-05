@@ -88,15 +88,15 @@ All events extend `BaseShortenerEvent` and provide access to the `UrlShortener` 
 $event->context; // UrlShortener instance
 ```
 
-| Event | Trigger | Data                  |
-|-------|---------|-----------------------|
-| `EncodeStartEvent` | Before URL encoding starts | `url`, `context`      |
-| `EncodeSuccessEvent` | After successful URL encoding | `url`, `code`, `context` |
-| `DecodeStartEvent` | Before code decoding starts | `code` , `context`    |
-| `DecodeSuccessEvent` | After successful code decoding | `code`, `url`, `context` |
-| `ValidateErrorEvent` | When URL validation fails | `url`, `message` |
+| Event | Trigger | Data                        |
+|-------|---------|-----------------------------|
+| `EncodeStartEvent` | Before URL encoding starts | `url`, `context`            |
+| `EncodeSuccessEvent` | After successful URL encoding | `url`, `code`, `context`    |
+| `DecodeStartEvent` | Before code decoding starts | `code` , `context`          |
+| `DecodeSuccessEvent` | After successful code decoding | `code`, `url`, `context`    |
+| `ValidateErrorEvent` | When URL validation fails | `url`, `message`, `context` |
 | `GetFromStorageErrorEvent` | When storage read fails | `code`, `message`, `context` |
-| `SaveErrorEvent` | When storage save fails | `message`, `context`|
+| `SaveErrorEvent` | When storage save fails | `message`, `context`        |
 
 
 ## UrlShortener Methods
